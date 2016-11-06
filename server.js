@@ -14,6 +14,7 @@ mongoose.connect('mongodb://localhost/weather_data', function(err, res){
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+app.use(express.static(__dirname + '/app/static'));
 
 var router = express.Router();
 
