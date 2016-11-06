@@ -8,4 +8,4 @@ var EntrySchema = new Schema({
   date: Date
 });
 
-module.exports = mongoose.model("Entries", EntrySchema);
+module.exports = mongoose.model("Entry", EntrySchema);

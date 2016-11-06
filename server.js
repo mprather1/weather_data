@@ -1,7 +1,7 @@
 var express = require("express"),
     app = express(),
     bodyParser = require("body-parser"),
-    Entries = require("./db/models/Entries"),
+    Entry = require("./db/models/Entry"),
     mongoose = require("mongoose");
     
 mongoose.connect('mongodb://localhost/weather_data', function(err, res){
@@ -22,9 +22,9 @@ router.use(function(req, res, next){
   next();
 });
 
-router.route('/data')
+router.route('/entries')
   .get(function(req, res){
-    Entries.find(function(err, response){
+    Entry.find(function(err, response){
       if (err){
         res.send(err);
       } else {
