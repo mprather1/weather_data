@@ -53,14 +53,26 @@
 
 	var Backbone = __webpack_require__(2);
 	var Marionette = __webpack_require__(5);
+
 	var Entries = __webpack_require__(7);
-
+	var TableView = __webpack_require__(9);
+	var EntriesView = __webpack_require__(10)
 	var entries = new Entries();
-
 	entries.fetch()
 
-	console.log(entries)
+	// var entryView = new EntriesView({
+	//     collection: entries
+	// })
 
+	var tableView = new TableView({
+	  collection: entries
+	});
+
+	var myApp = new Marionette.Application({
+	    region: '#main'
+	});
+	myApp.start();
+	myApp.showView(tableView)
 
 /***/ },
 /* 2 */
@@ -17462,13 +17474,112 @@
 
 /***/ },
 /* 7 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var Entry = __webpack_require__(8);
+
+	var Entries = Backbone.Collection.extend({
+	  url: 'http://198.211.99.230:8000/api/entries',
+	  model: Entry
+	});
+
+	module.exports = Entries;
+
+/***/ },
+/* 8 */
 /***/ function(module, exports) {
 
 	var Entry = Backbone.Model.extend({
-	  urlRoot: 'http://localhost:8000/api/entries'
+	  urlRoot: 'http://198.211.99.230:8000/api/entries'
 	});
 
 	module.exports = Entry;
+
+/***/ },
+/* 9 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var EntriesView = __webpack_require__(10);
+
+	var TableView = Backbone.Marionette.View.extend({
+	  tagName: 'div',
+	  className: 'panel panel-default',
+	  template: __webpack_require__(12),
+	  regions: {
+	    body: {
+	      el: 'tbody',
+	      replaceElement: true
+	    }
+	  },
+	  onRender: function(){
+	    this.showChildView('body', new EntriesView({
+	      collection: this.collection
+	    }));
+	  }
+	});
+
+	module.exports = TableView;
+
+
+/***/ },
+/* 10 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var EntryView = __webpack_require__(11);
+
+	var EntriesView = Backbone.Marionette.CollectionView.extend({
+	  tagName: 'tbody',
+	  childView: EntryView
+	});
+
+	module.exports = EntriesView;
+
+/***/ },
+/* 11 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var EntryView = Backbone.Marionette.View.extend({
+	  tagName: 'tr',
+	  template: __webpack_require__(13),
+	});
+
+	module.exports = EntryView;
+
+/***/ },
+/* 12 */
+/***/ function(module, exports) {
+
+	module.exports = function(obj){
+	var __t,__p='',__j=Array.prototype.join,print=function(){__p+=__j.call(arguments,'');};
+	with(obj||{}){
+	__p+='<div class="panel-heading">Weather Data</div>\n<div class=\'panel-body\'>\n  <table class="table table-hover">\n    <thead>\n      <tr>\n        <th class="table-header">Temperature Low</th>\n        <th class="table-header">Temperature Hi</th>\n        <th class="table-header">Dew Point</th>\n        <th class="table-header">Humidity</th>\n        <th class="table-header">Date</th>\n      </tr>\n    </thead>\n    <tbody></tbody>\n  </table>\n  <div class="panel-buttons"></div>\n</div>';
+	}
+	return __p;
+	};
+
+
+/***/ },
+/* 13 */
+/***/ function(module, exports) {
+
+	module.exports = function(obj){
+	var __t,__p='',__j=Array.prototype.join,print=function(){__p+=__j.call(arguments,'');};
+	with(obj||{}){
+	__p+='<td>'+
+	((__t=( temperature_low ))==null?'':__t)+
+	'</td>\n<td>'+
+	((__t=( temperature_hi ))==null?'':__t)+
+	'</td>\n<td>'+
+	((__t=( humidity ))==null?'':__t)+
+	'</td>\n<td>'+
+	((__t=( dew_point ))==null?'':__t)+
+	'</td>\n<td>'+
+	((__t=( date ))==null?'':__t)+
+	'</td>';
+	}
+	return __p;
+	};
+
 
 /***/ }
 /******/ ]);
