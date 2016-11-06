@@ -23,6 +23,22 @@ router.use(function(req, res, next){
 });
 
 router.route('/entries')
+  
+  .post(function(req, res){
+    var entry = new Entry();
+    entry.temperature_low = req.body.temperature_low;
+    entry.temperature_hi = req.body.temperature_hi;
+    entry.dew_point = req.body.dew_point;
+    entry.humidity = req.body.humidity;
+    entry.date = req.body.date;
+    entry.save(function(err){
+      if(err){
+        res.send(err);
+      }
+      res.json({ "message": "Entry created...", "success": entry });
+    });
+  })
+  
   .get(function(req, res){
     Entry.find(function(err, response){
       if (err){
