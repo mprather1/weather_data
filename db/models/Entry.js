@@ -6,7 +6,7 @@ var EntrySchema = new Schema({
   temperatureHi: Number,
   dew_point: Number,
   humidity: Number,
-  date: Date
+  dates: String
 });
 
 module.exports = mongoose.model("Entry", EntrySchema);
