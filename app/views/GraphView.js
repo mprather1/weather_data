@@ -8,7 +8,7 @@ var GraphView = Backbone.Marionette.View.extend({
     this.collection.fetch({
       success: function(col){
         var margin = { top: 20, right: 20, bottom: 50, left: 50 },
-        width = 960 - margin.left - margin.right,
+        width = 800 - margin.left - margin.right,
         height = 350 - margin.top - margin.bottom;
     
         var parseTime = d3.timeParse("%Y-%m-%d");    

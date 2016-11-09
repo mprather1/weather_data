@@ -17583,7 +17583,7 @@
 	module.exports = function(obj){
 	var __t,__p='',__j=Array.prototype.join,print=function(){__p+=__j.call(arguments,'');};
 	with(obj||{}){
-	__p+='<div class="panel-heading">Weather Data</div>\n<div class=\'panel-body\'>\n  <table class="table table-hover">\n    <thead>\n      <tr>\n        <th class="table-header">Date</th>\n        <th class="table-header" style="color:blue">Temperature Low</th>\n        <th class="table-header" style=\'color:red\'>Temperature Hi</th>\n        <th class="table-header" style="color:yellow">Dew Point</th>\n        <th class="table-header" style="color:green">Humidity</th>\n      </tr>\n    </thead>\n    <tbody></tbody>\n  </table>\n  <div class="panel-buttons"></div>\n</div>';
+	__p+='<div class="panel-heading">Weather Data</div>\n<div class=\'panel-body\' id=\'wrapper\'>\n  <table class="table table-hover">\n    <thead>\n      <tr>\n        <th class="table-header">Date</th>\n        <th class="table-header" style="color:blue">Temperature Low</th>\n        <th class="table-header" style=\'color:red\'>Temperature Hi</th>\n        <th class="table-header" style="color:yellow">Dew Point</th>\n        <th class="table-header" style="color:green">Humidity</th>\n      </tr>\n    </thead>\n    <tbody></tbody>\n  </table>\n  <div class="panel-buttons"></div>\n</div>';
 	}
 	return __p;
 	};
@@ -17634,7 +17634,7 @@
 	    this.collection.fetch({
 	      success: function(col){
 	        var margin = { top: 20, right: 20, bottom: 50, left: 50 },
-	        width = 960 - margin.left - margin.right,
+	        width = 800 - margin.left - margin.right,
 	        height = 350 - margin.top - margin.bottom;
 	    
 	        var parseTime = d3.timeParse("%Y-%m-%d");    
@@ -34134,7 +34134,7 @@
 	module.exports = function(obj){
 	var __t,__p='',__j=Array.prototype.join,print=function(){__p+=__j.call(arguments,'');};
 	with(obj||{}){
-	__p+='<header>\n  <nav class="navbar navbar-default navbar-fixed-top">\n    <div class="navbar-inner">\n      <span class="navbar-brand active"><a href="#home">Weather Data</a></span>\n    </div>\n  </nav>\n</header>\n<div class="row">\n  <div id=\'graph-view\' class="col-sm-7"></div>\n  <div id=\'main-view\' class="col-sm-5"></div>\n</div>';
+	__p+='<header>\n  <nav class="navbar navbar-default navbar-fixed-top">\n    <div class="navbar-inner">\n      <span class="navbar-brand active"><a href="#home">Weather Data</a></span>\n    </div>\n  </nav>\n</header>\n<div class="row">\n  <div id=\'graph-view\' class="col-sm-6"></div>\n  <div id=\'main-view\' class="col-sm-6"></div>\n</div>';
 	}
 	return __p;
 	};
