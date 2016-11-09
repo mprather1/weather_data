@@ -7,7 +7,7 @@ var EntriesView = require("./views/EntriesView")
 var PageView = require("./views/PageView")
 var GraphView = require("./views/GraphView")
 var entries = new Entries();
-entries.fetch()
+// entries.fetch()
 // var graphView = new GraphView({
 //   collection: entries
 // });

@@ -57,10 +57,10 @@
 	var Entries = __webpack_require__(7);
 	var TableView = __webpack_require__(9);
 	var EntriesView = __webpack_require__(10)
-	var PageView = __webpack_require__(16)
-	var GraphView = __webpack_require__(14)
+	var PageView = __webpack_require__(14)
+	var GraphView = __webpack_require__(15)
 	var entries = new Entries();
-	entries.fetch()
+	// entries.fetch()
 	// var graphView = new GraphView({
 	//   collection: entries
 	// });
@@ -17561,6 +17561,8 @@
 	var __t,__p='',__j=Array.prototype.join,print=function(){__p+=__j.call(arguments,'');};
 	with(obj||{}){
 	__p+='<td>'+
+	((__t=( dates ))==null?'':__t)+
+	'</td>\n<td>'+
 	((__t=( temperature_low ))==null?'':__t)+
 	'</td>\n<td>'+
 	((__t=( temperature_hi ))==null?'':__t)+
@@ -17568,9 +17570,7 @@
 	((__t=( humidity ))==null?'':__t)+
 	'</td>\n<td>'+
 	((__t=( dew_point ))==null?'':__t)+
-	'</td>\n<td>'+
-	((__t=( dates ))==null?'':__t)+
-	'</td>';
+	'</td>\n';
 	}
 	return __p;
 	};
@@ -17583,7 +17583,7 @@
 	module.exports = function(obj){
 	var __t,__p='',__j=Array.prototype.join,print=function(){__p+=__j.call(arguments,'');};
 	with(obj||{}){
-	__p+='<div class="panel-heading">Weather Data</div>\n<div class=\'panel-body\'>\n  <table class="table table-hover">\n    <thead>\n      <tr>\n        <th class="table-header">Temperature Low</th>\n        <th class="table-header">Temperature Hi</th>\n        <th class="table-header">Dew Point</th>\n        <th class="table-header">Humidity</th>\n        <th class="table-header">Date</th>\n      </tr>\n    </thead>\n    <tbody></tbody>\n  </table>\n  <div class="panel-buttons"></div>\n</div>';
+	__p+='<div class="panel-heading">Weather Data</div>\n<div class=\'panel-body\'>\n  <table class="table table-hover">\n    <thead>\n      <tr>\n        <th class="table-header">Date</th>\n        <th class="table-header" style="color:blue">Temperature Low</th>\n        <th class="table-header" style=\'color:red\'>Temperature Hi</th>\n        <th class="table-header" style="color:yellow">Dew Point</th>\n        <th class="table-header" style="color:green">Humidity</th>\n      </tr>\n    </thead>\n    <tbody></tbody>\n  </table>\n  <div class="panel-buttons"></div>\n</div>';
 	}
 	return __p;
 	};
@@ -17593,7 +17593,38 @@
 /* 14 */
 /***/ function(module, exports, __webpack_require__) {
 
-	/* WEBPACK VAR INJECTION */(function(_) {var d3 = __webpack_require__(15)
+	var GraphView = __webpack_require__(15)
+	var TableView = __webpack_require__(9);
+
+	var PageView = Backbone.Marionette.View.extend({
+	  tagName: 'div',
+	  className: 'container-fluid',
+	  template: __webpack_require__(17),
+	  regions: {
+	    graph: {
+	      el: '#graph-view'
+	    },
+	    main: {
+	      el: '#main-view'
+	    }
+	  },
+	  onRender: function(){
+	    this.showChildView('graph', new GraphView({
+	      collection: this.collection
+	    }));
+	    this.showChildView('main', new TableView({
+	      collection: this.collection
+	    }));
+	  }
+	});
+
+	module.exports = PageView;
+
+/***/ },
+/* 15 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/* WEBPACK VAR INJECTION */(function(_) {var d3 = __webpack_require__(16)
 
 	var GraphView = Backbone.Marionette.View.extend({
 	  tagName: 'div',
@@ -17603,105 +17634,104 @@
 	    this.collection.fetch({
 	      success: function(col){
 	        var margin = { top: 20, right: 20, bottom: 50, left: 50 },
-	    width = 960 - margin.left - margin.right,
-	    height = 500 - margin.top - margin.bottom;
-
-	    var parseTime = d3.timeParse("%Y-%m-%d");    
-	    var x = d3.scaleTime().range([0, width]);
-	    var y = d3.scaleLinear().range([height, 0]);
+	        width = 960 - margin.left - margin.right,
+	        height = 350 - margin.top - margin.bottom;
 	    
-	    var tempHiLine = d3.line()
-	      .x(function(d) { return x(d.date) })
-	      .y(function(d) { return y(d.temperature_hi) })
-	      // .curve(d3.curveCatmullRom.alpha(0.5));
-	       
-	    var tempLowLine = d3.line()
-	      .x(function(d) { return x(d.date) })
-	      .y(function(d) { return y(d.temperature_low) })
-	      // .curve(d3.curveCatmullRom.alpha(0.5));
-	      
-	    var humidityLine = d3.line()
-	      .x(function(d) { return x(d.date) })
-	      .y(function(d) { return y(d.humidity) })
-	      // .curve(d3.curveCatmullRom.alpha(0.5));
-
-	    var dewPointLine = d3.line()
-	      .x(function(d) { return x(d.date) })
-	      .y(function(d) { return y(d.dew_point) })
-	      // .curve(d3.curveCatmullRom.alpha(0.5));
+	        var parseTime = d3.timeParse("%Y-%m-%d");    
+	        var x = d3.scaleTime().range([0, width]);
+	        var y = d3.scaleLinear().range([height, 0]);
+	        
+	        var tempHiLine = d3.line()
+	          .x(function(d) { return x(d.date) })
+	          .y(function(d) { return y(d.temperature_hi) })
+	          // .curve(d3.curveCatmullRom.alpha(0.5));
+	           
+	        var tempLowLine = d3.line()
+	          .x(function(d) { return x(d.date) })
+	          .y(function(d) { return y(d.temperature_low) })
+	          // .curve(d3.curveCatmullRom.alpha(0.5));
+	          
+	        var humidityLine = d3.line()
+	          .x(function(d) { return x(d.date) })
+	          .y(function(d) { return y(d.humidity) })
+	          // .curve(d3.curveCatmullRom.alpha(0.5));
 	    
-	    var svg = d3.select('#graph-view')
-	      .append('svg')
-	        .attr('width', width + margin.left + margin.right)
-	        .attr('height', height + margin.top + margin.bottom)
-	      .append('g')
-	        .attr('transform', 'translate(' + margin.left + ', ' + margin.top + ')');
-	    
-	    var data = col.toJSON(); 
-	    
-	    function make_x_gridlines(){
-	      return d3.axisBottom(x)
-	        .ticks(5)
-	    }
-	    function make_y_gridlines(){
-	      return d3.axisLeft(y)
-	        .ticks(5)
-	    }
-	    
-	    data.forEach(function(d){
-	      d.date = parseTime(d.dates);
-	      d.temperature_hi = +d.temperature_hi;
-	      d.humidity = +d.humidity
-	      d.dew_point = +d.dew_point
-	    });
-	    
-	    x.domain(d3.extent(data, function(d) { return d.date; }));
-	    y.domain([0, d3.max(data, function(d) { return d.temperature_hi })]);
-	    
-	    svg.append('path')
-	      .data([data])
-	      .attr('class', 'line-red')
-	      .attr('d', tempHiLine);
-	    
-	    svg.append('path')
-	      .data([data])
-	      .attr('class', 'line-blue')
-	      .attr('d', tempLowLine);
-	      
-	    svg.append('path')
-	      .data([data])
-	      .attr('class', 'line-yellow')
-	      .attr('d', humidityLine);
-	      
-	    svg.append('path')
-	      .data([data])
-	      .attr('class', 'line-green')
-	      .attr('d', dewPointLine);
-	      
-	    svg.append('g')
-	      .attr('transform', 'translate(0,' + height + ')')
-	      .call(d3.axisBottom(x));
-	    
-	    svg.append('g')
-	      .call(d3.axisLeft(y));
-	      
-	    svg.append('g')
-	      .attr('class', 'grid')
-	      .attr('transform', 'translate(0,' + height + ')')
-	      .call(make_x_gridlines()
-	        .tickSize(-height)
-	        .tickFormat("")
-	      )
-	      
-	    svg.append('g')
-	      .attr('class', 'grid')
-	      .call(make_y_gridlines()
-	        .tickSize(-width)
-	        .tickFormat("")
-	      )
+	        var dewPointLine = d3.line()
+	          .x(function(d) { return x(d.date) })
+	          .y(function(d) { return y(d.dew_point) })
+	          // .curve(d3.curveCatmullRom.alpha(0.5));
+	        
+	        var svg = d3.select('#graph-view')
+	          .append('svg')
+	            .attr('width', width + margin.left + margin.right)
+	            .attr('height', height + margin.top + margin.bottom)
+	          .append('g')
+	            .attr('transform', 'translate(' + margin.left + ', ' + margin.top + ')');
+	        
+	        var data = col.toJSON(); 
+	        
+	        function make_x_gridlines(){
+	          return d3.axisBottom(x)
+	            .ticks(5);
+	        }
+	        function make_y_gridlines(){
+	          return d3.axisLeft(y)
+	            .ticks(5);
+	        }
+	        
+	        data.forEach(function(d){
+	          d.date = parseTime(d.dates);
+	          d.temperature_hi = +d.temperature_hi;
+	          d.humidity = +d.humidity;
+	          d.dew_point = +d.dew_point;
+	        });
+	        
+	        x.domain(d3.extent(data, function(d) { return d.date; }));
+	        y.domain([0, d3.max(data, function(d) { return d.temperature_hi })]);
+	        
+	        svg.append('path')
+	          .data([data])
+	          .attr('class', 'line-red')
+	          .attr('d', tempHiLine);
+	        
+	        svg.append('path')
+	          .data([data])
+	          .attr('class', 'line-blue')
+	          .attr('d', tempLowLine);
+	          
+	        svg.append('path')
+	          .data([data])
+	          .attr('class', 'line-yellow')
+	          .attr('d', humidityLine);
+	          
+	        svg.append('path')
+	          .data([data])
+	          .attr('class', 'line-green')
+	          .attr('d', dewPointLine);
+	          
+	        svg.append('g')
+	          .attr('transform', 'translate(0,' + height + ')')
+	          .call(d3.axisBottom(x));
+	        
+	        svg.append('g')
+	          .call(d3.axisLeft(y));
+	          
+	        svg.append('g')
+	          .attr('class', 'grid')
+	          .attr('transform', 'translate(0,' + height + ')')
+	          .call(make_x_gridlines()
+	            .tickSize(-height)
+	            .tickFormat("")
+	          );
+	          
+	        svg.append('g')
+	          .attr('class', 'grid')
+	          .call(make_y_gridlines()
+	            .tickSize(-width)
+	            .tickFormat("")
+	          );
 	      }
-	    })
-	    
+	    });
 	  }
 	});
 
@@ -17709,7 +17739,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
 
 /***/ },
-/* 15 */
+/* 16 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// https://d3js.org Version 4.3.0. Copyright 2016 Mike Bostock.
@@ -34098,44 +34128,13 @@
 
 
 /***/ },
-/* 16 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var GraphView = __webpack_require__(14)
-	var EntriesView = __webpack_require__(10);
-
-	var PageView = Backbone.Marionette.View.extend({
-	  tagName: 'div',
-	  // className: 'container-fluid',
-	  template: __webpack_require__(17),
-	  regions: {
-	    graph: {
-	      el: '#graph-view'
-	    },
-	    main: {
-	      el: '#main-view'
-	    }
-	  },
-	  onRender: function(){
-	    this.showChildView('graph', new GraphView({
-	      collection: this.collection
-	    }));
-	    this.showChildView('main', new EntriesView({
-	      collection: this.collection
-	    }));
-	  }
-	});
-
-	module.exports = PageView;
-
-/***/ },
 /* 17 */
 /***/ function(module, exports) {
 
 	module.exports = function(obj){
 	var __t,__p='',__j=Array.prototype.join,print=function(){__p+=__j.call(arguments,'');};
 	with(obj||{}){
-	__p+='<header>\n  <nav class="navbar navbar-default navbar-fixed-top">\n    <div class="navbar-inner">\n      <span class="navbar-brand active"><a href="#home">Company Directory</a></span>\n    </div>\n  </nav>\n</header>\n<div class="row">\n  <div id=\'graph-view\' class="col-sm-8"></div>\n  <div id=\'main-view\' class="col-sm-4"></div>\n</div>';
+	__p+='<header>\n  <nav class="navbar navbar-default navbar-fixed-top">\n    <div class="navbar-inner">\n      <span class="navbar-brand active"><a href="#home">Weather Data</a></span>\n    </div>\n  </nav>\n</header>\n<div class="row">\n  <div id=\'graph-view\' class="col-sm-7"></div>\n  <div id=\'main-view\' class="col-sm-5"></div>\n</div>';
 	}
 	return __p;
 	};
