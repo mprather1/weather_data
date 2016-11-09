@@ -2,8 +2,8 @@ var mongoose = require('mongoose'),
     Schema = mongoose.Schema;
     
 var EntrySchema = new Schema({
-  temperatureLow: Number,
-  temperatureHi: Number,
+  temperature_low: Number,
+  temperature_hi: Number,
   dew_point: Number,
   humidity: Number,
   dates: String
