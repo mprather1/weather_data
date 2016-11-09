@@ -8,6 +8,16 @@
   stroke: blue;
   stroke-width: 2px;
 }
+.line-yellow {
+  fill: none;
+  stroke: yellow;
+  stroke-width: 2px;
+}
+.line-green {
+  fill: none;
+  stroke: green;
+  stroke-width: 2px;
+}
 .grid line {
   stroke: lightgrey;
   stroke-opacity: 0.7;
