@@ -1,5 +1,6 @@
 var GraphView = require("./GraphView")
 var TableView = require("./TableView");
+var FormView = require("./FormView")
 
 var PageView = Backbone.Marionette.View.extend({
   tagName: 'div',
@@ -20,7 +21,7 @@ var PageView = Backbone.Marionette.View.extend({
     this.showChildView('main', new TableView({
       collection: this.collection
     }));
-  }
+  },
 });
 
 module.exports = PageView;

@@ -27,11 +27,12 @@ router.route('/entries')
   
   .post(function(req, res){
     var entry = new Entry();
+    console.log(req.body)
     entry.temperature_low = req.body.temperature_low;
     entry.temperature_hi = req.body.temperature_hi;
     entry.dew_point = req.body.dew_point;
     entry.humidity = req.body.humidity;
-    entry.date = req.body.date;
+    entry.dates = req.body.dates;
     entry.save(function(err){
       if(err){
         res.send(err);

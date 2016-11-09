@@ -55,30 +55,17 @@
 	var Marionette = __webpack_require__(5);
 
 	var Entries = __webpack_require__(7);
-	var TableView = __webpack_require__(9);
-	var EntriesView = __webpack_require__(10)
 	var PageView = __webpack_require__(14)
-	var GraphView = __webpack_require__(15)
 	var entries = new Entries();
-	// entries.fetch()
-	// var graphView = new GraphView({
-	//   collection: entries
-	// });
-	// graphView.render()
-
-	// entries.fetch({
-	//   success: function(){
-	//     graphView.render()
-	//   }
-	// });
 
 	var pageView = new PageView({
 	  collection: entries
 	})
-	// $('body').html(pageView.render().el)
+
 	var myApp = new Marionette.Application({
 	  region: '#main',
 	})
+
 	myApp.start()
 	myApp.showView(pageView)
 
@@ -17508,21 +17495,37 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	var EntriesView = __webpack_require__(10);
+	var FormView = __webpack_require__(20)
 
 	var TableView = Backbone.Marionette.View.extend({
 	  tagName: 'div',
 	  className: 'panel panel-default',
 	  template: __webpack_require__(13),
+	  events: {
+	    'click button': 'showForm'
+	  },
 	  regions: {
 	    body: {
 	      el: 'tbody',
 	      replaceElement: true
+	    },
+	    main: {
+	      el: '.panel-body',
+	      replaceElement: true
 	    }
+	  },
+	  initialize: function(){
+	    this.listenTo(Backbone, 'form:cancel', this.render)
 	  },
 	  onRender: function(){
 	    this.showChildView('body', new EntriesView({
 	      collection: this.collection
 	    }));
+	  },
+	  showForm: function(){
+	    this.showChildView('main', new FormView({
+	      collection: this.collection
+	    }))
 	  }
 	});
 
@@ -17583,7 +17586,7 @@
 	module.exports = function(obj){
 	var __t,__p='',__j=Array.prototype.join,print=function(){__p+=__j.call(arguments,'');};
 	with(obj||{}){
-	__p+='<div class="panel-heading">Weather Data</div>\n<div class=\'panel-body\' id=\'wrapper\'>\n  <table class="table table-hover">\n    <thead>\n      <tr>\n        <th class="table-header">Date</th>\n        <th class="table-header" style="color:blue">Temperature Low</th>\n        <th class="table-header" style=\'color:red\'>Temperature Hi</th>\n        <th class="table-header" style="color:yellow">Dew Point</th>\n        <th class="table-header" style="color:green">Humidity</th>\n      </tr>\n    </thead>\n    <tbody></tbody>\n  </table>\n  <div class="panel-buttons"></div>\n</div>';
+	__p+='<div class="panel-heading">Weather Data</div>\n<div class=\'panel-body container-fluid\' id=\'wrapper\'>\n  <button id="new-entry-button">Enter Data</button>\n  <table class="table table-hover">\n    <thead>\n      <tr>\n        <th class="table-header">Date</th>\n        <th class="table-header" style="color:blue">Temperature Low</th>\n        <th class="table-header" style=\'color:red\'>Temperature Hi</th>\n        <th class="table-header" style="color:yellow">Dew Point</th>\n        <th class="table-header" style="color:green">Humidity</th>\n      </tr>\n    </thead>\n    <tbody></tbody>\n  </table>\n  <div class="panel-buttons"></div>\n</div>';
 	}
 	return __p;
 	};
@@ -17595,6 +17598,7 @@
 
 	var GraphView = __webpack_require__(15)
 	var TableView = __webpack_require__(9);
+	var FormView = __webpack_require__(20)
 
 	var PageView = Backbone.Marionette.View.extend({
 	  tagName: 'div',
@@ -17615,7 +17619,7 @@
 	    this.showChildView('main', new TableView({
 	      collection: this.collection
 	    }));
-	  }
+	  },
 	});
 
 	module.exports = PageView;
@@ -34139,6 +34143,59 @@
 	return __p;
 	};
 
+
+/***/ },
+/* 18 */,
+/* 19 */
+/***/ function(module, exports) {
+
+	module.exports = function(obj){
+	var __t,__p='',__j=Array.prototype.join,print=function(){__p+=__j.call(arguments,'');};
+	with(obj||{}){
+	__p+='<div class="form-group">\n  <label for="temperature_low" class="control-label">Temperature Low</label>\n  <input class="form-control" type="text" id="temperature_low_input" name="temperature_low" placeholder="Enter low temperature...">\n  <span class="help-block hidden"></span>\n</div>\n<div class="form-group">\n  <label for="temperature_hi" class="control-label">Temperature Hi</label>\n  <input class="form-control" type="text" id="temperature_hi_input" name="temperature_hi" placeholder="Enter hi temperature...">\n  <span class="help-block hidden"></span>\n</div>\n<div class="form-group">\n  <label for="dew_point" class="control-label">Dew Point</label>\n  <input class="form-control" type="text" id="dew_point_input" name="dew_point" placeholder="Enter dew point...">\n  <span class="help-block hidden"></span>\n</div>\n<div class="form-group">\n  <label for="humidity" class="control-label">Humidity</label>\n  <input class="form-control" type="text" id="humidity_input" name="humidity" placeholder="Enter humidity...">\n  <span class="help-block hidden"></span>\n</div> \n<div class="form-group">\n  <label for="dates" class="control-label">Date</label>\n  <input class="form-control" type="text" id="dates_input" name="dates" placeholder="Enter date...">\n  <span class="help-block hidden"></span>\n</div> \n<button class="cancel-button">Cancel</button>\n<button class="submit-button">Submit</button>';
+	}
+	return __p;
+	};
+
+
+/***/ },
+/* 20 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/* WEBPACK VAR INJECTION */(function($) {var Entry = __webpack_require__(8);
+
+	var FormView = Backbone.Marionette.View.extend({
+	  template: __webpack_require__(19),
+	  className: 'container-fluid panel-body',
+	  initialize: function(){
+	    this.model = new Entry();
+	    this.listenTo(Backbone, 'form:submit', this.submitForm);
+	  },
+	  events: {
+	    'click .cancel-button': 'cancelForm',
+	    'click .submit-button': 'submitForm'
+	  },
+	  submitForm: function(){
+	    var entryAttrs = {
+	      temperature_hi: $('#temperature_hi_input').val(),
+	      temperature_low: $('#temperature_low_input').val(),
+	      dew_point: $('#dew_point_input').val(),
+	      humidity: $('#humidity_input').val(),
+	      dates: $('#dates_input').val()
+	    }
+	    console.log(entryAttrs)
+	    this.model.set(entryAttrs);
+	    this.model.save();
+	    this.collection.add(this.model);
+	    Backbone.trigger('form:cancel')
+	  },
+	  cancelForm: function(){
+	    Backbone.trigger('form:cancel')
+	  }
+	});
+
+	module.exports = FormView;
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
 
 /***/ }
 /******/ ]);
