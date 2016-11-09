@@ -77,12 +77,14 @@
 	    
 	    var tempHiLine = d3.line()
 	      .x(function(d) { return x(d.date) })
-	      .y(function(d) { return y(d.temperature_hi) });
-	      
+	      .y(function(d) { return y(d.temperature_hi) })
+	       .curve(d3.curveCatmullRom.alpha(0.5));
+	       
 	    var tempLowLine = d3.line()
 	      .x(function(d) { return x(d.date) })
-	      .y(function(d) { return y(d.temperature_low) });
-	    
+	      .y(function(d) { return y(d.temperature_low) })
+	      .curve(d3.curveCatmullRom.alpha(0.5));
+	      
 	    var svg = d3.select('body')
 	      .append('svg')
 	        .attr('width', width + margin.left + margin.right)
@@ -91,6 +93,15 @@
 	        .attr('transform', 'translate(' + margin.left + ', ' + margin.top + ')');
 	    
 	    var data = this.collection.toJSON(); 
+	    
+	    function make_x_gridlines(){
+	      return d3.axisBottom(x)
+	        .ticks(10)
+	    }
+	    function make_y_gridlines(){
+	      return d3.axisLeft(y)
+	        .ticks(10)
+	    }
 	    
 	    data.forEach(function(d){
 	      d.date = parseTime(d.dates);
@@ -116,6 +127,21 @@
 	    
 	    svg.append('g')
 	      .call(d3.axisLeft(y));
+	      
+	    svg.append('g')
+	      .attr('class', 'grid')
+	      .attr('transform', 'translate(0,' + height + ')')
+	      .call(make_x_gridlines()
+	        .tickSize(-height)
+	        .tickFormat("")
+	      )
+	      
+	    svg.append('g')
+	      .attr('class', 'grid')
+	      .call(make_y_gridlines()
+	        .tickSize(-width)
+	        .tickFormat("")
+	      )
 	  }
 	});
 
