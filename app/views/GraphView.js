@@ -2,11 +2,12 @@ var d3 = require("d3")
 
 var GraphView = Backbone.Marionette.View.extend({
   tagName: 'div',
-  className: 'container-fluid',
-  template: _.template("hello"),
+  template: _.template(""),
+
   onRender: function(){
-    
-    var margin = { top: 20, right: 20, bottom: 50, left: 50 },
+    this.collection.fetch({
+      success: function(col){
+        var margin = { top: 20, right: 20, bottom: 50, left: 50 },
     width = 960 - margin.left - margin.right,
     height = 500 - margin.top - margin.bottom;
 
@@ -34,14 +35,14 @@ var GraphView = Backbone.Marionette.View.extend({
       .y(function(d) { return y(d.dew_point) })
       // .curve(d3.curveCatmullRom.alpha(0.5));
     
-    var svg = d3.select('body')
+    var svg = d3.select('#graph-view')
       .append('svg')
         .attr('width', width + margin.left + margin.right)
         .attr('height', height + margin.top + margin.bottom)
       .append('g')
         .attr('transform', 'translate(' + margin.left + ', ' + margin.top + ')');
     
-    var data = this.collection.toJSON(); 
+    var data = col.toJSON(); 
     
     function make_x_gridlines(){
       return d3.axisBottom(x)
@@ -103,6 +104,9 @@ var GraphView = Backbone.Marionette.View.extend({
         .tickSize(-width)
         .tickFormat("")
       )
+      }
+    })
+    
   }
 });
 

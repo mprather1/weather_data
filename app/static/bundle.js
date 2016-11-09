@@ -57,19 +57,30 @@
 	var Entries = __webpack_require__(7);
 	var TableView = __webpack_require__(9);
 	var EntriesView = __webpack_require__(10)
+	var PageView = __webpack_require__(16)
 	var GraphView = __webpack_require__(14)
 	var entries = new Entries();
-
-	var graphView = new GraphView({
-	  collection: entries
-	});
+	entries.fetch()
+	// var graphView = new GraphView({
+	//   collection: entries
+	// });
 	// graphView.render()
 
-	entries.fetch({
-	  success: function(){
-	    graphView.render()
-	  }
-	});
+	// entries.fetch({
+	//   success: function(){
+	//     graphView.render()
+	//   }
+	// });
+
+	var pageView = new PageView({
+	  collection: entries
+	})
+	// $('body').html(pageView.render().el)
+	var myApp = new Marionette.Application({
+	  region: '#main',
+	})
+	myApp.start()
+	myApp.showView(pageView)
 
 /***/ },
 /* 2 */
@@ -17558,7 +17569,7 @@
 	'</td>\n<td>'+
 	((__t=( dew_point ))==null?'':__t)+
 	'</td>\n<td>'+
-	((__t=( date ))==null?'':__t)+
+	((__t=( dates ))==null?'':__t)+
 	'</td>';
 	}
 	return __p;
@@ -17586,11 +17597,12 @@
 
 	var GraphView = Backbone.Marionette.View.extend({
 	  tagName: 'div',
-	  className: 'container-fluid',
-	  template: _.template("hello"),
+	  template: _.template(""),
+
 	  onRender: function(){
-	    
-	    var margin = { top: 20, right: 20, bottom: 50, left: 50 },
+	    this.collection.fetch({
+	      success: function(col){
+	        var margin = { top: 20, right: 20, bottom: 50, left: 50 },
 	    width = 960 - margin.left - margin.right,
 	    height = 500 - margin.top - margin.bottom;
 
@@ -17618,14 +17630,14 @@
 	      .y(function(d) { return y(d.dew_point) })
 	      // .curve(d3.curveCatmullRom.alpha(0.5));
 	    
-	    var svg = d3.select('body')
+	    var svg = d3.select('#graph-view')
 	      .append('svg')
 	        .attr('width', width + margin.left + margin.right)
 	        .attr('height', height + margin.top + margin.bottom)
 	      .append('g')
 	        .attr('transform', 'translate(' + margin.left + ', ' + margin.top + ')');
 	    
-	    var data = this.collection.toJSON(); 
+	    var data = col.toJSON(); 
 	    
 	    function make_x_gridlines(){
 	      return d3.axisBottom(x)
@@ -17687,6 +17699,9 @@
 	        .tickSize(-width)
 	        .tickFormat("")
 	      )
+	      }
+	    })
+	    
 	  }
 	});
 
@@ -34080,6 +34095,50 @@
 	Object.defineProperty(exports, '__esModule', { value: true });
 
 	})));
+
+
+/***/ },
+/* 16 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var GraphView = __webpack_require__(14)
+	var EntriesView = __webpack_require__(10);
+
+	var PageView = Backbone.Marionette.View.extend({
+	  tagName: 'div',
+	  // className: 'container-fluid',
+	  template: __webpack_require__(17),
+	  regions: {
+	    graph: {
+	      el: '#graph-view'
+	    },
+	    main: {
+	      el: '#main-view'
+	    }
+	  },
+	  onRender: function(){
+	    this.showChildView('graph', new GraphView({
+	      collection: this.collection
+	    }));
+	    this.showChildView('main', new EntriesView({
+	      collection: this.collection
+	    }));
+	  }
+	});
+
+	module.exports = PageView;
+
+/***/ },
+/* 17 */
+/***/ function(module, exports) {
+
+	module.exports = function(obj){
+	var __t,__p='',__j=Array.prototype.join,print=function(){__p+=__j.call(arguments,'');};
+	with(obj||{}){
+	__p+='<header>\n  <nav class="navbar navbar-default navbar-fixed-top">\n    <div class="navbar-inner">\n      <span class="navbar-brand active"><a href="#home">Company Directory</a></span>\n    </div>\n  </nav>\n</header>\n<div class="row">\n  <div id=\'graph-view\' class="col-sm-8"></div>\n  <div id=\'main-view\' class="col-sm-4"></div>\n</div>';
+	}
+	return __p;
+	};
 
 
 /***/ }

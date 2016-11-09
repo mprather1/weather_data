@@ -27,3 +27,7 @@
 .grid path {
   stroke-width: 0;
 }
+
+body {
+  padding-top: 65px;
+}

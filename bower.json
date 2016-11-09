@@ -1,0 +1,21 @@
+{
+  "name": "weather_data",
+  "description": "",
+  "main": "server.js",
+  "authors": [
+    "Michael Prather"
+  ],
+  "license": "ISC",
+  "homepage": "https://github.com/mprather1/weather_data",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "app/static/bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap": "^3.3.7"
+  }
+}
