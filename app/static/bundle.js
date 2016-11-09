@@ -71,14 +71,17 @@
 	    width = 960 - margin.left - margin.right,
 	    height = 500 - margin.top - margin.bottom;
 
-	    var parseTime = d3.timeParse("%d-%b-%y");
-	    
+	parseTime = d3.timeParse("%Y-%m-%d");    
 	    var x = d3.scaleTime().range([0, width]);
 	    var y = d3.scaleLinear().range([height, 0]);
 	    
-	    var valueline = d3.line()
+	    var tempHiLine = d3.line()
 	      .x(function(d) { return x(d.date) })
 	      .y(function(d) { return y(d.temperature_hi) });
+	      
+	    var tempLowLine = d3.line()
+	      .x(function(d) { return x(d.date) })
+	      .y(function(d) { return y(d.temperature_low) });
 	    
 	    var svg = d3.select('body')
 	      .append('svg')
@@ -99,8 +102,13 @@
 	    
 	    svg.append('path')
 	      .data([data])
-	      .attr('class', 'line')
-	      .attr('d', valueline);
+	      .attr('class', 'line-red')
+	      .attr('d', tempHiLine);
+	    
+	    svg.append('path')
+	      .data([data])
+	      .attr('class', 'line-blue')
+	      .attr('d', tempLowLine);
 	      
 	    svg.append('g')
 	      .attr('transform', 'translate(0,' + height + ')')

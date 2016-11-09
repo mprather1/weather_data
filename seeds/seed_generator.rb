@@ -16,7 +16,7 @@ file.puts('[')
     temperature_hi: @temperatureHi,
     dew_point: @dew_point,
     humidity: @humidity,
-    date: @date
+    dates: @date
   }
   file.puts(JSON.generate(my_hash) + ",")
 end
