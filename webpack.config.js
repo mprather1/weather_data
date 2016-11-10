@@ -1,5 +1,6 @@
 const webpack = require("webpack");
 const path = require("path");
+var ExtractTextPlugin = require("extract-text-webpack-plugin");
 
 var HtmlWebpackPlugin = require("html-webpack-plugin");
 var HtmlWebpackPluginConfig = new HtmlWebpackPlugin({
@@ -16,6 +17,7 @@ var paths = {
 };
 
 module.exports = {
+  debug: true,
   entry: [
     paths.ENTRY
   ],
@@ -37,12 +39,16 @@ module.exports = {
       }
     ],
     loaders: [
-      { test: /\.html/, include: paths.APP + '/templates', loader: "underscore-template-loader" }
+      { test: /\.html/, include: paths.APP + '/templates', loader: "underscore-template-loader" },
+      { test: /\.css$/, include: paths.APP + '/public',
+        loader: ExtractTextPlugin.extract("style-loader", "css-loader")
+      }
     ],
   },
   output: {
     filename: paths.OUTPUT_FILENAME,
-    path: paths.OUTPUT
+    path: paths.OUTPUT,        
+    // chunkFilename: "[id].js"
   },
   plugins: [
     HtmlWebpackPluginConfig,
@@ -53,14 +59,15 @@ module.exports = {
     new webpack.DefinePlugin({
       'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV)
     }),
-    // new webpack.optimize.DedupePlugin(),
-    // new webpack.optimize.OccurenceOrderPlugin(),
-    // new webpack.optimize.UglifyJsPlugin({
-    //   compress: { warnings: false },
-    //   mangle: true,
-    //   sourcemap: false,
-    //   beautify: false,
-    //   dead_code: true
-    // })
+    new ExtractTextPlugin("bundle.css"),
+    new webpack.optimize.DedupePlugin(),
+    new webpack.optimize.OccurenceOrderPlugin(),
+    new webpack.optimize.UglifyJsPlugin({
+      compress: { warnings: false },
+      mangle: true,
+      sourcemap: false,
+      beautify: false,
+      dead_code: true
+    })
   ]
 };

@@ -4,6 +4,7 @@ var Marionette = require('marionette');
 var Entries = require("./collections/Entries");
 var PageView = require("./views/PageView")
 var entries = new Entries();
+var css = require("./public/style.css")
 
 var pageView = new PageView({
   collection: entries
