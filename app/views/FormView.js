@@ -5,7 +5,7 @@ var FormView = Backbone.Marionette.View.extend({
   className: 'container-fluid panel-body',
   initialize: function(){
     this.model = new Entry();
-    this.listenTo(Backbone, 'form:submit', this.submitForm);
+    // this.listenTo(Backbone, 'form:submit', this.submitForm);
   },
   events: {
     'click .cancel-button': 'cancelForm',
@@ -23,6 +23,7 @@ var FormView = Backbone.Marionette.View.extend({
     this.model.set(entryAttrs);
     this.model.save();
     this.collection.add(this.model);
+
     Backbone.trigger('form:cancel')
   },
   cancelForm: function(){

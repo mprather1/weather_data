@@ -27,7 +27,6 @@ router.route('/entries')
   
   .post(function(req, res){
     var entry = new Entry();
-    console.log(req.body)
     entry.temperature_low = req.body.temperature_low;
     entry.temperature_hi = req.body.temperature_hi;
     entry.dew_point = req.body.dew_point;

@@ -3,6 +3,9 @@ var d3 = require("d3")
 var GraphView = Backbone.Marionette.View.extend({
   tagName: 'div',
   template: _.template(""),
+  initialize: function(){
+    // this.listenTo(Backbone, 'form:cancel', this.render)
+  },
 
   onRender: function(){
     this.collection.fetch({
@@ -46,11 +49,11 @@ var GraphView = Backbone.Marionette.View.extend({
         
         function make_x_gridlines(){
           return d3.axisBottom(x)
-            .ticks(5);
+            .ticks(10);
         }
         function make_y_gridlines(){
           return d3.axisLeft(y)
-            .ticks(5);
+            .ticks(10);
         }
         
         data.forEach(function(d){
@@ -61,7 +64,7 @@ var GraphView = Backbone.Marionette.View.extend({
         });
         
         x.domain(d3.extent(data, function(d) { return d.date; }));
-        y.domain([0, d3.max(data, function(d) { return d.temperature_hi })]);
+        y.domain([d3.min(data, function(d) { return d.temperature_low}), d3.max(data, function(d) { return d.temperature_hi })]);
         
         svg.append('path')
           .data([data])

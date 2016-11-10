@@ -17633,6 +17633,9 @@
 	var GraphView = Backbone.Marionette.View.extend({
 	  tagName: 'div',
 	  template: _.template(""),
+	  initialize: function(){
+	    // this.listenTo(Backbone, 'form:cancel', this.render)
+	  },
 
 	  onRender: function(){
 	    this.collection.fetch({
@@ -17676,11 +17679,11 @@
 	        
 	        function make_x_gridlines(){
 	          return d3.axisBottom(x)
-	            .ticks(5);
+	            .ticks(10);
 	        }
 	        function make_y_gridlines(){
 	          return d3.axisLeft(y)
-	            .ticks(5);
+	            .ticks(10);
 	        }
 	        
 	        data.forEach(function(d){
@@ -17691,7 +17694,7 @@
 	        });
 	        
 	        x.domain(d3.extent(data, function(d) { return d.date; }));
-	        y.domain([0, d3.max(data, function(d) { return d.temperature_hi })]);
+	        y.domain([d3.min(data, function(d) { return d.temperature_low}), d3.max(data, function(d) { return d.temperature_hi })]);
 	        
 	        svg.append('path')
 	          .data([data])
@@ -34138,7 +34141,7 @@
 	module.exports = function(obj){
 	var __t,__p='',__j=Array.prototype.join,print=function(){__p+=__j.call(arguments,'');};
 	with(obj||{}){
-	__p+='<header>\n  <nav class="navbar navbar-default navbar-fixed-top">\n    <div class="navbar-inner">\n      <span class="navbar-brand active"><a href="#home">Weather Data</a></span>\n    </div>\n  </nav>\n</header>\n<div class="row">\n  <div id=\'graph-view\' class="col-sm-6"></div>\n  <div id=\'main-view\' class="col-sm-6"></div>\n</div>';
+	__p+='<header>\n  <nav class="navbar navbar-default navbar-fixed-top">\n    <div class="navbar-inner">\n      <span class="navbar-brand active"><a href="#home">Weather Data</a></span>\n    </div>\n  </nav>\n</header>\n<div class="row">\n  <div id=\'graph-view\' class="col-sm-7"></div>\n  <div id=\'main-view\' class="col-sm-5"></div>\n</div>';
 	}
 	return __p;
 	};
@@ -34169,7 +34172,7 @@
 	  className: 'container-fluid panel-body',
 	  initialize: function(){
 	    this.model = new Entry();
-	    this.listenTo(Backbone, 'form:submit', this.submitForm);
+	    // this.listenTo(Backbone, 'form:submit', this.submitForm);
 	  },
 	  events: {
 	    'click .cancel-button': 'cancelForm',
@@ -34187,6 +34190,7 @@
 	    this.model.set(entryAttrs);
 	    this.model.save();
 	    this.collection.add(this.model);
+
 	    Backbone.trigger('form:cancel')
 	  },
 	  cancelForm: function(){
