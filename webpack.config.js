@@ -39,16 +39,19 @@ module.exports = {
       }
     ],
     loaders: [
-      { test: /\.html/, include: paths.APP + '/templates', loader: "underscore-template-loader" },
-      { test: /\.css$/, include: paths.APP + '/public',
-        loader: ExtractTextPlugin.extract("style-loader", "css-loader")
+      { 
+        test: /\.html/, include: paths.APP + '/templates',
+        loader: "underscore-template-loader" },
+      { 
+        test: /\.scss$/, include: paths.APP + '/public',
+        loader: ExtractTextPlugin.extract("style", "css!sass")
       }
     ],
   },
   output: {
     filename: paths.OUTPUT_FILENAME,
     path: paths.OUTPUT,        
-    // chunkFilename: "[id].js"
+    chunkFilename: "[id].js"
   },
   plugins: [
     HtmlWebpackPluginConfig,

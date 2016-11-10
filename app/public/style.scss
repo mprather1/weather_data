@@ -1,6 +1,8 @@
+$color-red: red;
+
 .line-red {
   fill: none;
-  stroke: red;
+  stroke: $color-red;
   stroke-width: 2px;
 }
 .line-blue {
