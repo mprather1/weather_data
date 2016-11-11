@@ -1,0 +1,23 @@
+$color-red: red;
+
+.line {
+  fill: none;
+  stroke-width: 2px;
+}
+.line-red {
+  stroke: red;
+}
+
+.line-blue {
+  stroke: blue;
+}
+.grid line {
+  stroke: lightgrey;
+  stroke-opacity: 0.7;
+  shape-rendering: crispEdges;
+}
+
+.grid path {
+  stroke-width: 0;
+}
+

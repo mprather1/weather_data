@@ -3,13 +3,13 @@ var Marionette = require('marionette');
 var d3 = require("d3")
 
 function line(){
-  var $el = d3.select('body')
+  var $el = {}
   var width = 960
   var height = 500
   var color = 'steelblue'
   var margin = {top: 10, right: 30, bottom: 30, left: 30}
   var data = []
-  var svg, xAxis, yAxis, line
+  var svg, xAxis, yAxis
   var object = {};
   
   object.render = function(){
@@ -25,11 +25,11 @@ function line(){
       
       function make_x_gridlines(){
         return d3.axisBottom(x)
-          .ticks(10);
+          .ticks(12);
       }
       function make_y_gridlines(){
         return d3.axisLeft(y)
-          .ticks(10);
+          .ticks(12);
       }
       
       data.forEach(function(d){
@@ -38,11 +38,11 @@ function line(){
         d.temperature_low = +d.temperature_low;
       });
       
-      TempHiline = d3.line()
+      var TempHiline = d3.line()
         .x(function(d) { return x(d.date)})
         .y(function(d) { return y(d.temperature_hi)})
         
-      TempLowline = d3.line()
+      var TempLowline = d3.line()
         .x(function(d) { return x(d.date)})
         .y(function(d) { return y(d.temperature_low)})
         
@@ -54,7 +54,7 @@ function line(){
         .attr('transform', 'translate(' + margin.left + "," + margin.top + ')');
       
         x.domain(d3.extent(data, function(d) { return d.date; }));
-        y.domain([0, d3.max(data, function(d) { return d.temperature_hi })]);
+        y.domain([d3.min(data, function(d) { return d.temperature_low }), d3.max(data, function(d) { return d.temperature_hi })]);
       
       svg.append('g')
         .attr('class', 'x axis')
@@ -67,14 +67,12 @@ function line(){
         
       svg.append('path')
         .datum(data)
-        .attr('class', 'line-red')
-        .attr('stroke', color)
+        .attr('class', 'line line-red')
         .attr('d', TempHiline);
         
       svg.append('path')
         .datum(data)
-        .attr('class', 'line-blue')
-        .attr('stroke', color)
+        .attr('class', 'line line-blue')
         .attr('d', TempLowline);
         
       svg.append('g')

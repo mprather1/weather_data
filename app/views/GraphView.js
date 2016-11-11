@@ -1,15 +1,12 @@
 var d3 = require("d3")
-var line = require("../js/Graph")
+var line = require("../public/js/Graph")
 
 var GraphView = Backbone.Marionette.View.extend({
   tagName: 'div',
   className: 'col-sm-7',
   id: 'graph',
   template: false,
-  initialize: function(){
-    // this.listenTo(Backbone, 'form:cancel', this.render)
-  },
-  
+
   onRender: function(){
     this.collection.fetch({
       success: function(col){
