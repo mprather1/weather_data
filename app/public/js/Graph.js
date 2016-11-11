@@ -33,9 +33,10 @@ function line(){
       }
       
       data.forEach(function(d){
-        d.date = parseTime(d.dates);
+        d.date = parseTime(d.dates)
         d.temperature_hi = +d.temperature_hi;
         d.temperature_low = +d.temperature_low;
+        d.humidity = +d.humidity;
       });
       
       var TempHiline = d3.line()
@@ -45,6 +46,11 @@ function line(){
       var TempLowline = d3.line()
         .x(function(d) { return x(d.date)})
         .y(function(d) { return y(d.temperature_low)})
+      
+      var HumidityLine = d3.line()
+       .x(function(d) { return x(d.date)})
+       .y(function(d) { return y(d.humidity)})
+      
 
       svg = $el.append('div')
         .classed('svg-container', true)
@@ -88,6 +94,51 @@ function line(){
         );
           
       svg.append('g')
+        .attr('class', 'grid')
+        .call(make_y_gridlines()
+          .tickSize(-width)
+          .tickFormat("")
+        );
+        
+ //###############################################################################################     
+      
+      svg2 = $el.append('div')
+        .classed('svg-container', true)
+        .append('svg')
+        .attr("preserveAspectRatio", "xMinYMin meet")
+        .attr("viewBox", "0 0 " + (width + margin.left + margin.right) + " " + (height + margin.top + margin.bottom)) 
+        .classed("svg-content-responsive", true)
+        // .attr('width', width + margin.left + margin.right)
+        // .attr('height', height + margin.top + margin.bottom)
+        .append('g')
+        .attr('transform', 'translate(' + margin.left + "," + margin.top + ')');
+      
+        x.domain(d3.extent(data, function(d) { return d.date; }));
+        y.domain([0, 100]);
+      
+      svg2.append('g')
+        .attr('class', 'x axis')
+        .attr('transform', 'translate(0,' + height + ')')
+        .call(xAxis)
+        
+      svg2.append('g')
+        .attr('class', 'y axis')
+        .call(yAxis)
+        
+      svg2.append('path')
+        .datum(data)
+        .attr('class', 'line line-green')
+        .attr('d', HumidityLine)
+
+      svg2.append('g')
+        .attr('class', 'grid')
+        .attr('transform', 'translate(0,' + height + ')')
+        .call(make_x_gridlines()
+          .tickSize(-height)
+          .tickFormat("")
+        );
+          
+      svg2.append('g')
         .attr('class', 'grid')
         .call(make_y_gridlines()
           .tickSize(-width)
