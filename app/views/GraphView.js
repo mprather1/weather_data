@@ -12,8 +12,8 @@ var GraphView = Backbone.Marionette.View.extend({
       success: function(col){
         var line1 = line()
           .$el(d3.select("#graph"))
-          // .height(500)
-          // .width(700)
+          .height(500)
+          .width(960)
           .data(col.toJSON())
           .render();
       }

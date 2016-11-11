@@ -50,7 +50,7 @@ function line(){
         .classed('svg-container', true)
         .append('svg')
         .attr("preserveAspectRatio", "xMinYMin meet")
-        .attr("viewBox", "0 0 1000 1000") 
+        .attr("viewBox", "0 0 " + (width + margin.left + margin.right) + " " + (height + margin.top + margin.bottom)) 
         .classed("svg-content-responsive", true)
         // .attr('width', width + margin.left + margin.right)
         // .attr('height', height + margin.top + margin.bottom)
