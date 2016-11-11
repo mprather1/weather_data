@@ -1,21 +1,23 @@
 require 'json'
 require 'faker'
+@date_counter = 0
 
 # Create Users seed
 File.open('seeds/entries.json', 'w') do |file|
 file.puts('[')  
-10.times do
+365.times do
   @temperatureLow = Faker::Number.number(2)
   @temperatureHi = Faker::Number.number(2)
   @dew_point = Faker::Number.number(2)
   @humidity = Faker::Number.number(2)
-  @date = Faker::Date.forward(365)
+  @date = Date.today + @date_counter
+  @date_counter += 1
   
   my_hash = {
-    temperature_low: @temperatureLow,
-    temperature_hi: @temperatureHi,
-    dew_point: @dew_point,
-    humidity: @humidity,
+    temperature_low: @temperatureLow.to_i,
+    temperature_hi: @temperatureHi.to_i,
+    dew_point: @dew_point.to_i,
+    humidity: @humidity.to_i,
     dates: @date
   }
   file.puts(JSON.generate(my_hash) + ",")

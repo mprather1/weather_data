@@ -2,17 +2,6 @@ var Backbone = require("backbone");
 var Marionette = require('marionette');
 var d3 = require("d3")
 
-var getData = function(){
-  var data = [];
-  for(var i=0; i<100; i++){
-    data.push({
-      x: i,
-      y: Math.round(Math.random() * 100)
-    });
-  };
-  return data;
-};
-
 function line(){
   var $el = d3.select('body')
   var width = 960
@@ -46,11 +35,17 @@ function line(){
       data.forEach(function(d){
         d.date = parseTime(d.dates);
         d.temperature_hi = +d.temperature_hi;
+        d.temperature_low = +d.temperature_low;
       });
       
-      line = d3.line()
+      TempHiline = d3.line()
         .x(function(d) { return x(d.date)})
         .y(function(d) { return y(d.temperature_hi)})
+        
+      TempLowline = d3.line()
+        .x(function(d) { return x(d.date)})
+        .y(function(d) { return y(d.temperature_low)})
+        
         
       svg = $el.append('svg')
         .attr('width', width + margin.left + margin.right)
@@ -74,7 +69,13 @@ function line(){
         .datum(data)
         .attr('class', 'line-red')
         .attr('stroke', color)
-        .attr('d', line);
+        .attr('d', TempHiline);
+        
+      svg.append('path')
+        .datum(data)
+        .attr('class', 'line-blue')
+        .attr('stroke', color)
+        .attr('d', TempLowline);
         
       svg.append('g')
         .attr('class', 'grid')
