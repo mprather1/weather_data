@@ -8,7 +8,8 @@ var PageView = Backbone.Marionette.View.extend({
   template: require("../templates/page-template.html"),
   regions: {
     graph: {
-      el: '#graph-view'
+      el: '#graph-view',
+      replaceElement: true
     },
     main: {
       el: '#main-view'
