@@ -46,9 +46,14 @@ function line(){
         .x(function(d) { return x(d.date)})
         .y(function(d) { return y(d.temperature_low)})
 
-      svg = $el.append('svg')
-        .attr('width', width + margin.left + margin.right)
-        .attr('height', height + margin.top + margin.bottom)
+      svg = $el.append('div')
+        .classed('svg-container', true)
+        .append('svg')
+        .attr("preserveAspectRatio", "xMinYMin meet")
+        .attr("viewBox", "0 0 1000 1000") 
+        .classed("svg-content-responsive", true)
+        // .attr('width', width + margin.left + margin.right)
+        // .attr('height', height + margin.top + margin.bottom)
         .append('g')
         .attr('transform', 'translate(' + margin.left + "," + margin.top + ')');
       
