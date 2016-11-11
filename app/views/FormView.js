@@ -18,16 +18,15 @@ var FormView = Backbone.Marionette.View.extend({
       dew_point: $('#dew_point_input').val(),
       humidity: $('#humidity_input').val(),
       dates: $('#dates_input').val()
-    }
-    console.log(entryAttrs)
+    };
     this.model.set(entryAttrs);
     this.model.save();
     this.collection.add(this.model);
 
-    Backbone.trigger('form:cancel')
+    Backbone.trigger('form:cancel');
   },
   cancelForm: function(){
-    Backbone.trigger('form:cancel')
+    Backbone.trigger('form:cancel');
   }
 });
 

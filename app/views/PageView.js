@@ -1,6 +1,5 @@
-var GraphView = require("./GraphView")
+var GraphView = require("./GraphView");
 var TableView = require("./TableView");
-var FormView = require("./FormView")
 
 var PageView = Backbone.Marionette.View.extend({
   tagName: 'div',

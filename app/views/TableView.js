@@ -1,5 +1,5 @@
 var EntriesView = require("./EntriesView");
-var FormView = require("./FormView")
+var FormView = require("./FormView");
 
 var TableView = Backbone.Marionette.View.extend({
   tagName: 'div',
@@ -19,7 +19,7 @@ var TableView = Backbone.Marionette.View.extend({
     }
   },
   initialize: function(){
-    this.listenTo(Backbone, 'form:cancel', this.render)
+    this.listenTo(Backbone, 'form:cancel', this.render);
   },
   onRender: function(){
     this.showChildView('body', new EntriesView({
@@ -29,7 +29,7 @@ var TableView = Backbone.Marionette.View.extend({
   showForm: function(){
     this.showChildView('main', new FormView({
       collection: this.collection
-    }))
+    }));
   }
 });
 

@@ -67,13 +67,13 @@ function line(){
       svg.append('path')
         .datum(data)
         .attr('class', 'line line-red')
-        .attr('d', TempHiline);
-        
+        .attr('d', TempHiline)
+
       svg.append('path')
         .datum(data)
         .attr('class', 'line line-blue')
-        .attr('d', TempLowline);
-        
+        .attr('d', TempLowline)
+
       svg.append('g')
         .attr('class', 'grid')
         .attr('transform', 'translate(0,' + height + ')')

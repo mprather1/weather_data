@@ -1,5 +1,5 @@
-var d3 = require("d3")
-var line = require("../public/js/Graph")
+var d3 = require("d3");
+var line = require("../public/js/Graph");
 
 var GraphView = Backbone.Marionette.View.extend({
   tagName: 'div',
