@@ -19,7 +19,7 @@ app.use(express.static(__dirname + '/app/static'));
 var router = express.Router();
 
 router.use(function(req, res, next){
-  console.log("Loading....");
+  console.log("%s %s - %s", (new Date).toString(), req.method, req.url);
   next();
 });
 

@@ -45,8 +45,7 @@ function line(){
       var TempLowline = d3.line()
         .x(function(d) { return x(d.date)})
         .y(function(d) { return y(d.temperature_low)})
-        
-        
+
       svg = $el.append('svg')
         .attr('width', width + margin.left + margin.right)
         .attr('height', height + margin.top + margin.bottom)

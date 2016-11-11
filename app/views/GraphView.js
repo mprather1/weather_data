@@ -6,12 +6,13 @@ var GraphView = Backbone.Marionette.View.extend({
   className: 'col-sm-7',
   id: 'graph',
   template: false,
-
+  
   onRender: function(){
     this.collection.fetch({
       success: function(col){
         var line1 = line()
           .$el(d3.select("#graph"))
+          .x('hello')
           .height(200)
           .width(700)
           .data(col.toJSON())
