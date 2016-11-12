@@ -5,13 +5,20 @@ var FormView = Backbone.Marionette.View.extend({
   className: 'container-fluid panel-body',
   initialize: function(){
     this.model = new Entry();
-    // this.listenTo(Backbone, 'form:submit', this.submitForm);
+    Backbone.Validation.bind(this, {
+      model: this.model
+    });
+  },
+  ui: {
+    submit: '.submit-button',
+    cancel: '.cancel-button'
   },
   events: {
-    'click .cancel-button': 'cancelForm',
-    'click .submit-button': 'submitForm'
+    'click @ui.cancel': 'cancelForm',
+    'click @ui.submit': 'submitForm'
   },
-  submitForm: function(){
+  submitForm: function(e){
+    e.preventDefault();
     var entryAttrs = {
       temperature_hi: $('#temperature_hi_input').val(),
       temperature_low: $('#temperature_low_input').val(),
@@ -20,12 +27,16 @@ var FormView = Backbone.Marionette.View.extend({
       dates: $('#dates_input').val()
     };
     this.model.set(entryAttrs);
-    this.model.save();
-    this.collection.add(this.model);
-
-    Backbone.trigger('form:cancel');
+    if(this.model.isValid(true)){
+      this.model.save();
+      this.collection.add(this.model);
+      Backbone.Validation.unbind(this);
+      Backbone.trigger('form:cancel');
+    }
+    return false;
   },
-  cancelForm: function(){
+  cancelForm: function(e){
+    e.preventDefault();
     Backbone.trigger('form:cancel');
   }
 });
