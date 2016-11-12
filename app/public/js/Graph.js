@@ -7,7 +7,7 @@ function line(){
   var width = 960
   var height = 500
   var color = 'steelblue'
-  var margin = {top: 10, right: 30, bottom: 30, left: 30}
+  var margin = {top: 10, right: 30, bottom: 35, left: 30}
   var data = []
   var svg, xAxis, yAxis
   var object = {};
@@ -71,6 +71,11 @@ function line(){
         .attr('transform', 'translate(0,' + height + ')')
         .call(xAxis)
         
+      svg.append('text')
+        .attr('transform', 'translate(' + (width/2) + ' ,' + (height + margin.top + 20) + ')')
+        .style("text-anchor", 'middle')
+        .text('Temperature Low/Hi');
+        
       svg.append('g')
         .attr('class', 'y axis')
         .call(yAxis)
@@ -120,6 +125,11 @@ function line(){
         .attr('class', 'x axis')
         .attr('transform', 'translate(0,' + height + ')')
         .call(xAxis)
+      
+      svg2.append('text')
+        .attr('transform', 'translate(' + (width/2) + ' ,' + (height + margin.top + 20) + ')')
+        .style("text-anchor", 'middle')
+        .text('Humidity');
         
       svg2.append('g')
         .attr('class', 'y axis')
