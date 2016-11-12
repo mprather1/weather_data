@@ -50,6 +50,10 @@ function line(){
       var HumidityLine = d3.line()
        .x(function(d) { return x(d.date)})
        .y(function(d) { return y(d.humidity)})
+       
+      var DewPointLine = d3.line()
+       .x(function(d) { return x(d.date)})
+       .y(function(d) { return y(d.dew_point)})
       
 
       svg = $el.append('div')
@@ -107,7 +111,7 @@ function line(){
         
  //###############################################################################################     
       
-      svg2 = $el.append('div')
+      humidityGraph = $el.append('div')
         .classed('svg-container', true)
         .append('svg')
         .attr("preserveAspectRatio", "xMinYMin meet")
@@ -121,26 +125,26 @@ function line(){
         x.domain(d3.extent(data, function(d) { return d.date; }));
         y.domain([0, 100]);
       
-      svg2.append('g')
+      humidityGraph.append('g')
         .attr('class', 'x axis')
         .attr('transform', 'translate(0,' + height + ')')
         .call(xAxis)
       
-      svg2.append('text')
+      humidityGraph.append('text')
         .attr('transform', 'translate(' + (width/2) + ' ,' + (height + margin.top + 20) + ')')
         .style("text-anchor", 'middle')
         .text('Humidity');
         
-      svg2.append('g')
+      humidityGraph.append('g')
         .attr('class', 'y axis')
         .call(yAxis)
         
-      svg2.append('path')
+      humidityGraph.append('path')
         .datum(data)
         .attr('class', 'line line-green')
         .attr('d', HumidityLine)
 
-      svg2.append('g')
+      humidityGraph.append('g')
         .attr('class', 'grid')
         .attr('transform', 'translate(0,' + height + ')')
         .call(make_x_gridlines()
@@ -148,12 +152,62 @@ function line(){
           .tickFormat("")
         );
           
-      svg2.append('g')
+      humidityGraph.append('g')
         .attr('class', 'grid')
         .call(make_y_gridlines()
           .tickSize(-width)
           .tickFormat("")
         );
+        
+  //####################################################
+  
+      dewPointGraph = $el.append('div')
+        .classed('svg-container', true)
+        .append('svg')
+        .attr("preserveAspectRatio", "xMinYMin meet")
+        .attr("viewBox", "0 0 " + (width + margin.left + margin.right) + " " + (height + margin.top + margin.bottom)) 
+        .classed("svg-content-responsive", true)
+        // .attr('width', width + margin.left + margin.right)
+        // .attr('height', height + margin.top + margin.bottom)
+        .append('g')
+        .attr('transform', 'translate(' + margin.left + "," + margin.top + ')');
+      
+        x.domain(d3.extent(data, function(d) { return d.date; }));
+        y.domain([d3.min(data, function(d) { return d.dew_point }), d3.max(data, function(d) { return d.dew_point })]);      
+      dewPointGraph.append('g')
+        .attr('class', 'x axis')
+        .attr('transform', 'translate(0,' + height + ')')
+        .call(xAxis)
+      
+      dewPointGraph.append('text')
+        .attr('transform', 'translate(' + (width/2) + ' ,' + (height + margin.top + 20) + ')')
+        .style("text-anchor", 'middle')
+        .text('Dew Point');
+        
+      dewPointGraph.append('g')
+        .attr('class', 'y axis')
+        .call(yAxis)
+        
+      dewPointGraph.append('path')
+        .datum(data)
+        .attr('class', 'line line-steelblue')
+        .attr('d', DewPointLine)
+
+      dewPointGraph.append('g')
+        .attr('class', 'grid')
+        .attr('transform', 'translate(0,' + height + ')')
+        .call(make_x_gridlines()
+          .tickSize(-height)
+          .tickFormat("")
+        );
+          
+      dewPointGraph.append('g')
+        .attr('class', 'grid')
+        .call(make_y_gridlines()
+          .tickSize(-width)
+          .tickFormat("")
+        );
+  
     } 
     return object;
   }

@@ -16,8 +16,12 @@ $color-red: red;
   stroke: green;
 }
 
+.line-steelblue {
+  stroke: steelblue;
+}
+
 .grid line {
-  stroke: lightgrey;
+  stroke: grey;
   stroke-opacity: 0.5;
   // shape-rendering: crispEdges;
 }
@@ -30,7 +34,7 @@ $color-red: red;
   display: inline-block;
   position: relative;
   width: 100%;
-  padding-bottom: 37%; 
+  padding-bottom: 32%; 
   vertical-align: top;
   overflow: hidden;
 }
