@@ -6,7 +6,9 @@ var TableView = Backbone.Marionette.View.extend({
   className: 'panel panel-default',
   template: require("../templates/table-template.html"),
   events: {
-    'click button': 'showForm'
+    'click button': 'showForm',
+    'mouseover .table-header': 'mouseoverFunc',
+    'mouseout .table-header': 'mouseoutFunc'
   },
   regions: {
     body: {
@@ -30,7 +32,13 @@ var TableView = Backbone.Marionette.View.extend({
     this.showChildView('main', new FormView({
       collection: this.collection
     }));
-  }
+  },
+  mouseoverFunc: function(event){
+    $(event.currentTarget).css({"background-color":"lightgrey","cursor":"pointer"});
+  },
+  mouseoutFunc: function(event){
+    $(event.currentTarget).css("background-color", "rgb(231, 231, 230)");
+  },
 });
 
 module.exports = TableView;

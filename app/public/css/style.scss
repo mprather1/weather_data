@@ -1,25 +1,37 @@
 body {
-  padding-top: 65px;
-  background-color: lightgrey;
+  padding-top:65px;
+  background-color:lightgrey;
 }
-
+#new-entry-button {
+  margin-bottom:5px;
+}
 #wrapper{
 height:100%;
 width:100%;
 }
 table{
-/*border:1px solid black;*/
+border:1px solid lightgrey;
+border-collapse:collapse;
 width:100%;
+table-layout:fixed;
+display:table;
+}
+.table-header {
+  background-color: rgb(231, 231, 230)
 }
 th, td{
-width:165px;
-/*border:1px solid black;*/
+width:125px;
+text-align:center;
+// border:1px solid lightgrey;
+vertical-align:middle;
+display:table-cell;
 }
 thead>tr{
 position:relative;
 display:block;
 }
 tbody{
+// position:relative;
 display:block;
 height:700px;
 overflow:auto;
